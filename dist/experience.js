@@ -40,9 +40,13 @@
   const counter = controls.querySelector('.depth-counter');
   const [previous, next] = controls.querySelectorAll('button');
   const positions = [[.29, -.02], [-.26, .15], [.02, -.23], [.20, .19], [-.22, -.16], [.13, .02]];
+  const drifts = galleryPhotos.map((_, index) => ({x: 5 + index * 1.7, y: 4 + index, phase: index * 1.1}));
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   let frame = 0;
   let layer = 0;
+  let draggedPhoto;
+  let dragPointer;
+  let dragOrigin;
 
   function renderGallery() {
     frame = 0;
@@ -59,14 +63,41 @@
       const scale = 1 / Math.max(.18, 1.3 + depth * .56);
       const [x, y] = positions[index];
       const fade = clamp((depth + 2.04) / .38, 0, 1);
-      photo.style.left = `${50 + 100 * x * scale}%`;
-      photo.style.top = `${49 + 100 * y * scale}%`;
+      const drift = drifts[index];
+      photo.style.left = `calc(${50 + 100 * x * scale}% + ${Math.sin(performance.now() / 1700 + drift.phase) * drift.x}px + ${drift.dragX || 0}px)`;
+      photo.style.top = `calc(${49 + 100 * y * scale}% + ${Math.cos(performance.now() / 1900 + drift.phase) * drift.y}px + ${drift.dragY || 0}px)`;
       photo.style.transform = `translate(-50%, -50%) scale(${scale})`;
       photo.style.opacity = String(fade * clamp(1 - depth * .18, 0, 1));
       photo.style.zIndex = String(galleryPhotos.length - index);
       photo.style.visibility = fade ? 'visible' : 'hidden';
     });
   }
+
+  galleryPhotos.forEach((photo, index) => {
+    photo.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      draggedPhoto = photo;
+      dragPointer = event.pointerId;
+      dragOrigin = {x: event.clientX, y: event.clientY, startX: drifts[index].dragX || 0, startY: drifts[index].dragY || 0};
+      photo.setPointerCapture(event.pointerId);
+    });
+    photo.addEventListener('pointermove', (event) => {
+      if (draggedPhoto !== photo || event.pointerId !== dragPointer) return;
+      drifts[index].dragX = dragOrigin.startX + event.clientX - dragOrigin.x;
+      drifts[index].dragY = dragOrigin.startY + event.clientY - dragOrigin.y;
+      scheduleGallery();
+    });
+    photo.addEventListener('pointerup', (event) => {
+      if (draggedPhoto !== photo || event.pointerId !== dragPointer) return;
+      const moved = Math.abs(event.clientX - dragOrigin.x) + Math.abs(event.clientY - dragOrigin.y) > 8;
+      if (moved) photo.dataset.dragged = 'true';
+      draggedPhoto = undefined;
+      scheduleGallery();
+    });
+    photo.addEventListener('click', (event) => {
+      if (photo.dataset.dragged) { event.preventDefault(); delete photo.dataset.dragged; }
+    }, true);
+  });
 
   function scheduleGallery() {
     if (!frame && !reducedMotion.matches) frame = requestAnimationFrame(renderGallery);
