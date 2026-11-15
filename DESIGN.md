@@ -20,3 +20,10 @@ The supplied 2480 × 19396 JPG is the reference for content, composition and art
 - Editorial spreads use a shared grid for copy and photographs.
 - A copy block contains semantic paragraphs with fluid line sizing.
 - Photographs reserve their aspect ratios and load as they approach the viewport. Informative photographs have alt text.
+
+## Motion and photo viewing
+
+- Separate layers from the original cover move with scroll. The original cover supplies the first paint and the reduced motion view.
+- Documentary photos fade and rise as they first enter the viewport. The installation collage adds a single warm red sweep on desktop. Phones use a shorter fade.
+- Photo links open a native dialog and retain their direct image destinations when JavaScript is unavailable. The dialog closes by button, Escape or a backdrop click and returns focus to the originating photo.
+- The only animation dependency is the locally served Motion 12.23.24 distribution.

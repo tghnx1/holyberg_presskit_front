@@ -218,3 +218,138 @@ h1, h2 {
     font-size: clamp(1.125rem, 4.75cqw, 1.625rem);
   }
 }
+
+.cover {
+  overflow: hidden;
+}
+
+.cover-layers {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cover.is-layered .cover-layers {
+  visibility: visible;
+}
+
+.cover.is-layered .cover-original {
+  visibility: hidden;
+}
+
+.cover-layers > img {
+  position: absolute;
+  inset: 0;
+}
+
+.cover-layers .cover-wordmark {
+  inset: 7.94% auto auto 25.8%;
+  inline-size: 48.4%;
+}
+
+a.photo {
+  color: inherit;
+  cursor: zoom-in;
+}
+
+.photo > img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+a.photo:focus-visible, .viewer-close:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 4px;
+}
+
+a.photo:focus-visible {
+  position: relative;
+  z-index: 2;
+}
+
+.installations {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  overflow-clip-margin: 6px;
+}
+
+.laser-sweep {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(115deg, transparent 44%, #e3161640 49%, #ffd0a0c0 50%, #e3161630 50.5%, transparent 56%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.photo-viewer {
+  box-sizing: border-box;
+  max-inline-size: none;
+  max-block-size: none;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--highlight);
+}
+
+.photo-viewer[open] {
+  display: grid;
+  place-items: center;
+}
+
+.photo-viewer::backdrop {
+  background: #050304ed;
+}
+
+html:has(.photo-viewer[open]) {
+  overflow: hidden;
+}
+
+.viewer-frame {
+  display: grid;
+  justify-items: end;
+  gap: 0.5rem;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+}
+
+.viewer-frame img {
+  display: block;
+  max-inline-size: 100%;
+  max-block-size: calc(100dvh - 5.25rem);
+  object-fit: contain;
+}
+
+.viewer-close {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid currentColor;
+  background: var(--canvas);
+  color: inherit;
+  font: 1.5rem/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover.is-layered .cover-layers, .laser-sweep {
+    visibility: hidden;
+  }
+
+  .cover.is-layered .cover-original {
+    visibility: visible;
+  }
+
+  a.photo > img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
