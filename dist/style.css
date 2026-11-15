@@ -346,3 +346,4 @@ body, body * {
   font-family: "Holyberg Press", monospace !important;
   color: var(--ink) !important;
 }
+body p { color: var(--paper) !important; }
