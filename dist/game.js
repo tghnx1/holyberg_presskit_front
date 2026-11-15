@@ -12,6 +12,61 @@
   let started = false;
   let slowTimer;
 
+  const orientation = matchMedia('(orientation: portrait)');
+  let portrait = orientation.matches;
+  let gameVisible = false;
+  let restoreFocus = false;
+  let rotationTimer;
+  let rotationFrame = 0;
+  let anchoring = false;
+
+  function rememberGamePosition() {
+    if (anchoring || orientation.matches !== portrait) return;
+    const bounds = frame.getBoundingClientRect();
+    gameVisible = bounds.top < innerHeight * .6 && bounds.bottom > innerHeight * .4;
+    restoreFocus = document.activeElement === iframe;
+  }
+
+  function anchorGame() {
+    cancelAnimationFrame(rotationFrame);
+    rotationFrame = requestAnimationFrame(() => {
+      if (!anchoring || document.fullscreenElement) return;
+      const top = scrollY + frame.getBoundingClientRect().top;
+      scrollTo({ top: Math.max(0, top - 12), behavior: 'instant' });
+      if (restoreFocus) iframe.focus({ preventScroll: true });
+    });
+    clearTimeout(rotationTimer);
+    rotationTimer = setTimeout(() => {
+      anchoring = false;
+      rememberGamePosition();
+    }, 700);
+  }
+
+  function rotated() {
+    if (orientation.matches === portrait) return;
+    portrait = orientation.matches;
+    if (!gameVisible || document.fullscreenElement) return;
+    anchoring = true;
+    anchorGame();
+  }
+
+  function stopAnchoring() {
+    anchoring = false;
+    clearTimeout(rotationTimer);
+    cancelAnimationFrame(rotationFrame);
+  }
+
+  orientation.addEventListener('change', rotated);
+  addEventListener('resize', () => {
+    rotated();
+    if (anchoring) anchorGame();
+  });
+  addEventListener('scroll', rememberGamePosition, { passive: true });
+  addEventListener('touchstart', stopAnchoring, { passive: true });
+  addEventListener('wheel', stopAnchoring, { passive: true });
+  addEventListener('keydown', stopAnchoring);
+  addEventListener('blur', () => setTimeout(rememberGamePosition, 0));
+
   frame.hidden = false;
   if (document.fullscreenEnabled && frame.requestFullscreen) {
     fullscreen.hidden = false;
