@@ -182,7 +182,7 @@ html:has(.photo-viewer[open]) {
 }
 
 .depth-gallery:not(.is-spatial) .installation-grid { padding: 0 var(--gutter) var(--section-space); }
-.depth-gallery.is-spatial { height: 500svh; }
+.depth-gallery.is-spatial { height: var(--gallery-height, 500svh); }
 .is-spatial .depth-stage {
   position: sticky;
   top: 0;
@@ -272,3 +272,21 @@ html:has(.photo-viewer[open]) {
   .events-intro, .events-videos { grid-template-columns: 1fr; }
   .events-photos:not(.events-process) { grid-template-columns: 1fr; }
 }
+
+.photo-caption, .viewer-caption {
+  padding: 8px 10px;
+  color: var(--paper);
+  background: var(--canvas);
+  font: 12px/1.45 monospace;
+}
+.photo-caption { display: block; }
+.viewer-caption { justify-self: stretch; }
+.viewer-caption a, .community-feature figcaption a {
+  color: var(--highlight);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.viewer-caption a { display: inline-block; margin-left: 6px; }
+.viewer-caption a[hidden] { display: none; }
+.photo-viewer.has-caption img { max-block-size: calc(100dvh - 11rem); }
+.events-process:has(> :only-child) { grid-template-columns: minmax(0, 400px); }

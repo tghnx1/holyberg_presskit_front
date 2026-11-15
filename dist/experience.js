@@ -2,6 +2,8 @@
   const photos = [...document.querySelectorAll('a.photo')];
   const viewer = document.querySelector('.photo-viewer');
   const enlarged = viewer.querySelector('img');
+  const caption = viewer.querySelector('.viewer-caption');
+  const captionLink = caption.querySelector('a');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const compact = matchMedia('(max-width: 819px)');
   let opener;
@@ -15,6 +17,13 @@
         opener = photo;
         enlarged.alt = photo.querySelector('img').alt;
         enlarged.src = photo.href;
+        const label = photo.querySelector('.photo-caption')?.textContent;
+        const eventLink = photo.dataset.captionLink;
+        caption.hidden = !label;
+        viewer.classList.toggle('has-caption', Boolean(label));
+        caption.querySelector('span').textContent = label || '';
+        captionLink.hidden = !eventLink;
+        if (eventLink) captionLink.href = eventLink;
         viewer.showModal();
       });
     }
@@ -39,7 +48,9 @@
   const controls = gallery.querySelector('.depth-controls');
   const counter = controls.querySelector('.depth-counter');
   const [previous, next] = controls.querySelectorAll('button');
-  const positions = [[.29, -.02], [-.26, .15], [.02, -.23], [.20, .19], [-.22, -.16], [.13, .02]];
+  const positions = [[.29, -.02], [-.26, .15], [.02, -.23], [.20, .19], [-.22, -.16], [.13, .02], [-.16, -.04]];
+  const total = String(galleryPhotos.length).padStart(2, '0');
+  gallery.style.setProperty('--gallery-height', `${100 + (galleryPhotos.length - 1) * 80}svh`);
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   let frame = 0;
   let layer = 0;
@@ -52,7 +63,7 @@
     const progress = clamp(-gallery.getBoundingClientRect().top / Math.max(1, travel), 0, 1);
     const distance = progress * (galleryPhotos.length - 1);
     layer = Math.round(distance);
-    counter.textContent = `LAYER ${String(layer + 1).padStart(2, '0')} / 06`;
+    counter.textContent = `LAYER ${String(layer + 1).padStart(2, '0')} / ${total}`;
 
     galleryPhotos.forEach((photo, index) => {
       const depth = index - distance;
