@@ -367,7 +367,7 @@ html:has(.photo-viewer[open]) {
 .gallery-category select { min-height: 44px; max-width: 100%; border: 1px solid #6d676c; padding-inline: 10px; background: var(--canvas); color: var(--paper); font-size: 12px; }
 @media (max-width: 819px) {
   .is-spatial .gallery-category { position: absolute; z-index: 12; top: max(66px, calc(env(safe-area-inset-top) + 54px)); left: var(--gutter); margin: 0; }
-  .is-spatial .installation-grid :is(.photo, .gallery-clip) { top: 53%; width: 74vw; max-width: 490px; }
+  .is-spatial .installation-grid :is(.photo, .gallery-clip) { top: 53%; width: 46vw; max-width: 490px; }
   .is-spatial .installation-grid .photo img { max-height: 49svh; }
   .is-spatial .clip-launch img { max-height: 49svh; }
   .is-spatial .installation-grid > :not(.is-active) .photo-caption { visibility: hidden; }

@@ -56,23 +56,16 @@ export function initGallery(reducedMotion, compact, viewer) {
       const isActive = index === active;
       const card = media[index];
       const magnitude = Math.abs(depth);
-      if (magnitude >= (compact.matches ? 1.55 : 2.04)) continue;
+      if (magnitude >= 2.04) continue;
       displayed.add(card);
       card.inert = !isActive;
       card.classList.toggle('is-active', isActive);
 
-      if (compact.matches) {
-        const scale = 1 - Math.min(magnitude, 1.5) * .38;
-        const x = clamp(depth, -1.35, 1.35) * 31;
-        const y = Math.min(magnitude, 1.5) * (depth < 0 ? 14 : -19);
-        card.style.transform = `translate(-50%, -50%) translate(${x}vw, ${y}svh) scale(${scale})`;
-        card.style.opacity = String(isActive ? 1 : clamp(1 - magnitude * .59, 0, .58));
-      } else {
-        const scale = 1 / Math.max(.25, 1.3 + depth * .56);
-        const [x, y] = positions[index % positions.length];
-        card.style.transform = `translate(-50%, -50%) translate(${100 * x * scale}vw, ${100 * y * scale}svh) scale(${scale})`;
-        card.style.opacity = String(clamp((2.04 - magnitude) / .38, 0, 1) * clamp(1 - depth * .18, 0, 1));
-      }
+      const scale = 1 / Math.max(.25, 1.3 + depth * .56);
+      const [x, y] = positions[index % positions.length];
+      const spread = compact.matches ? .78 : 1;
+      card.style.transform = `translate(-50%, -50%) translate(${100 * x * scale * spread}vw, ${100 * y * scale}svh) scale(${scale})`;
+      card.style.opacity = String(clamp((2.04 - magnitude) / .38, 0, 1) * clamp(1 - depth * .18, 0, 1));
       card.style.zIndex = String(isActive ? 5 : 3 - Math.floor(magnitude));
       card.style.visibility = 'visible';
     }
