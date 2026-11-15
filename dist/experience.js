@@ -45,6 +45,10 @@
 
   const gallery = document.querySelector('.depth-gallery');
   const galleryPhotos = [...gallery.querySelectorAll('.photo, .gallery-clip')];
+  const galleryGrid = gallery.querySelector('.installation-grid');
+  const groupOrder = ['visuals', 'people-process', 'video'];
+  galleryPhotos.sort((a, b) => groupOrder.indexOf(a.dataset.gallery) - groupOrder.indexOf(b.dataset.gallery));
+  galleryPhotos.forEach((item) => galleryGrid.append(item));
   const galleryTabs = [...gallery.querySelectorAll('[data-gallery-group]')];
   const controls = gallery.querySelector('.depth-controls');
   const counter = controls.querySelector('.depth-counter');
