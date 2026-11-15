@@ -238,3 +238,22 @@ main > section:not(.visuals) { animation: content-through-space linear both; ani
 }
 .depth-controls button { cursor: pointer; margin-left: 4px; }
 .depth-counter { color: var(--highlight); }
+
+main > section.spatial-source { display:none; }
+.spatial-world { position:relative; background:#080708; }
+.spatial-stage { position:sticky; top:0; height:100svh; overflow:hidden; perspective:1200px; perspective-origin:50% 50%; isolation:isolate; background:radial-gradient(ellipse at center,#1b171b 0,#0a080a 66%,#050405 100%); }
+.spatial-layer { position:absolute; top:50%; left:50%; width:min(76vw,980px); max-height:76svh; display:grid; place-items:center; transform-style:preserve-3d; will-change:transform,opacity; transition:filter .25s; }
+.spatial-layer .section-heading { width:100%; color:var(--paper); }
+.spatial-layer h2,.spatial-layer h3 { color:var(--ink); font-size:clamp(32px,6vw,90px); }
+.spatial-layer p { color:var(--paper); font-size:clamp(16px,2vw,24px); }
+.spatial-layer .photo { max-height:75svh; width:min(62vw,720px); cursor:grab; touch-action:none; }
+.spatial-layer .photo:active { cursor:grabbing; }
+.spatial-layer .photo img { max-height:72svh; width:auto; max-width:70vw; object-fit:contain; }
+.spatial-layer .manifesto-copy,.spatial-layer .story-copy,.spatial-layer .visual-intro { padding:clamp(22px,5vw,70px); background:#0b090bd9; }
+.spatial-hud { position:absolute; z-index:100; inset:20px var(--gutter) auto; display:flex; justify-content:space-between; align-items:center; color:var(--paper); font:11px monospace; letter-spacing:.12em; pointer-events:none; }
+.spatial-hud a { pointer-events:auto; border:1px solid #777; border-radius:30px; padding:12px 18px; }
+.spatial-world.static { height:auto!important; }
+.spatial-world.static .spatial-stage { position:relative; height:auto; overflow:visible; padding:80px 20px; display:grid; gap:90px; }
+.spatial-world.static .spatial-layer { position:relative; inset:auto; transform:none!important; opacity:1!important; visibility:visible!important; width:100%; max-height:none; }
+@media(max-width:760px){.spatial-layer{width:88vw;max-height:70svh}.spatial-layer .photo{width:80vw}.spatial-layer .photo img{max-width:82vw;max-height:65svh}.spatial-hint{display:none}}
+@media(prefers-reduced-motion:reduce){.spatial-world{height:auto!important}.spatial-world .spatial-stage{position:relative;height:auto;overflow:visible;display:grid;gap:64px;padding:72px 20px}.spatial-world .spatial-layer{position:relative;inset:auto;transform:none!important;opacity:1!important;visibility:visible!important;width:100%;max-height:none}}
