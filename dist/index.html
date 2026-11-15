@@ -9,11 +9,18 @@
     <link rel="icon" href="assets/mountain-cover.webp">
     <link rel="preload" href="assets/holyberg-press.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="style.css">
-    <script defer src="vendor/motion-12.23.24.js"></script>
-    <script defer src="experience.js"></script>
+    <script type="module" src="experience.js"></script>
+    <script defer src="game.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#manifesto">Skip to content</a>
+    <details class="section-menu" hidden>
+      <summary>MENU</summary>
+      <nav aria-label="Jump to section">
+        <a href="#manifesto">About</a><a href="#people">People</a><a href="#visuals">Visuals</a>
+        <a href="#gallery">Gallery</a><a href="#events">Events</a><a href="#contact">Contact</a><a href="#game">Game</a>
+      </nav>
+    </details>
     <header class="cover" id="top">
       <nav class="navigation" aria-label="Main navigation">
         <a class="brand" href="#top">HOLYBERG</a>
@@ -21,7 +28,7 @@
       </nav>
       <h1 class="visually-hidden">HOLYBERG</h1>
       <img class="cover-logo" src="assets/cover-wordmark.webp" alt="" width="1084" height="484" fetchpriority="high">
-      <img class="cover-mountain" src="assets/cover-mountains.webp" alt="" width="2240" height="1523" fetchpriority="high">
+      <img class="cover-mountain" src="assets/cover-mountains.webp" srcset="assets/cover-mountains-960.webp 960w, assets/cover-mountains.webp 2240w" sizes="(max-width: 760px) 150vw, 100vw" alt="" width="2240" height="1523" fetchpriority="high">
       <div class="cover-bottom"><a href="#manifesto">ENTER OUR WORLD <span aria-hidden="true">↓</span></a></div>
     </header>
     <main>
@@ -29,7 +36,7 @@
         <div class="section-heading"><span>DISCLAIMER</span><span>NO USELESS PHILOSOPHY</span></div>
         <h2 id="manifesto-title">WE ARE ABOUT<br>BEAUTIFUL<br><span class="indent">ABSURDITY.</span></h2>
         <div class="manifesto-spread">
-          <a class="photo manifesto-photo" href="assets/dj-booth.webp"><img src="assets/dj-booth.webp" alt="Four performers and friends behind the DJ booth." width="1083" height="789" loading="lazy" decoding="async"></a>
+          <a class="photo manifesto-photo" href="assets/dj-booth.webp"><img src="assets/dj-booth.webp" srcset="assets/dj-booth-640.webp 640w, assets/dj-booth.webp 1083w" sizes="(max-width: 760px) 92vw, 53vw" alt="Four performers and friends behind the DJ booth." width="1083" height="789" loading="lazy" decoding="async"></a>
           <div class="manifesto-copy"><h3>WE ARE A CULT OF HEDONISM</h3><p>About an art collective. About performance. We are about sound, visuals, and style. Here creativity collides with freedom. No judgment. No boundaries.</p><h3>WHY DOESN'T IT MATTER?</h3><p>It doesn’t matter if you are a punk, a glamorous diva, or anyone at all. Because we don’t lock ourselves into a single style. We combine different aesthetics into one harmonious whole, united by a shared mood. We often introduce new avant-garde sounds — a fresh perspective on music, based on well-proven principles — reliably making the body move to an energetic and carefully crafted sonic narrative.</p></div>
         </div>
       </section>
@@ -37,41 +44,44 @@
         <div class="section-heading"><span>THE COLLECTIVE</span><span>KYIV — BERLIN</span></div>
         <div class="story-grid">
           <div class="story-copy"><h2 id="people-title">WE FOUND<br>OUR FAMILY.</h2><p>In 2024, the most part of us arrived straight from Kyiv, leaving behind a series of both successful and intimate local parties. We brought our previous experience with us and fused it with something new. Along the way, we found our family — people who resonated with the space we create — and that’s how the HOLYBERG formation was born.</p></div>
-          <a class="photo portrait" href="assets/dance-floor.webp"><img src="assets/dance-floor.webp" alt="Friends talking on the dance floor." width="913" height="935" loading="lazy" decoding="async"></a>
+          <a class="photo portrait" href="assets/dance-floor.webp"><img src="assets/dance-floor.webp" srcset="assets/dance-floor-640.webp 640w, assets/dance-floor.webp 913w" sizes="(max-width: 760px) 80vw, 40vw" alt="Friends talking on the dance floor." width="913" height="935" loading="lazy" decoding="async"></a>
         </div>
-        <div class="people-pair"><a class="photo " href="assets/club-portrait.webp"><img src="assets/club-portrait.webp" alt="A guest smiling by a reflective wall." width="1210" height="940" loading="lazy" decoding="async"></a><a class="photo " href="assets/mirrorball.webp"><img src="assets/mirrorball.webp" alt="A crowded dance floor under a mirror ball and round lights." width="1131" height="1146" loading="lazy" decoding="async"></a></div>
+        <div class="people-pair"><a class="photo " href="assets/club-portrait.webp"><img src="assets/club-portrait.webp" srcset="assets/club-portrait-640.webp 640w, assets/club-portrait.webp 1210w" sizes="(max-width: 760px) 46vw, 34vw" alt="A guest smiling by a reflective wall." width="1210" height="940" loading="lazy" decoding="async"></a><a class="photo " href="assets/mirrorball.webp"><img src="assets/mirrorball.webp" alt="A crowded dance floor under a mirror ball and round lights." width="1131" height="1146" loading="lazy" decoding="async"></a></div>
         <div class="community-grid">
           <a class="photo " href="assets/two-djs.webp"><img src="assets/two-djs.webp" alt="Two DJs at the mixing desk, one wearing headphones." width="911" height="1026" loading="lazy" decoding="async"></a>
           <div class="story-copy"><h3>FRIENDS.<br>FRIENDS OF FRIENDS.</h3><p>We never tried to push ourselves through marketing. Friends, friends of friends — people who came and chose to stay with us. That’s our path, and it’s true.</p></div>
         </div>
         <div class="photo-strip"><a class="photo " href="assets/club-djs.webp"><img src="assets/club-djs.webp" alt="Three people behind the decks under a disco ball." width="950" height="1076" loading="lazy" decoding="async"></a><a class="photo " href="assets/dance-by-decks.webp"><img src="assets/dance-by-decks.webp" alt="A dancer in front of the decks." width="835" height="1116" loading="lazy" decoding="async"></a><a class="photo " href="assets/dj-in-hat.webp"><img src="assets/dj-in-hat.webp" alt="A DJ in a broad-brimmed hat adjusts the mixer." width="875" height="1031" loading="lazy" decoding="async"></a></div>
-        <div class="berlin-grid"><div class="story-copy"><p>From the very first months in Berlin, we found ways to express ourselves — and every party, every piece of feedback only confirmed one thing: we have</p><h3>TO KEEP<br>GOING.</h3></div><a class="photo " href="assets/red-fan.webp"><img src="assets/red-fan.webp" alt="A crowd with a bright red fan." width="1280" height="851" loading="lazy" decoding="async"></a></div>
+        <div class="berlin-grid"><div class="story-copy"><p>From the very first months in Berlin, we found ways to express ourselves — and every party, every piece of feedback only confirmed one thing: we have</p><h3>TO KEEP<br>GOING.</h3></div><a class="photo " href="assets/red-fan.webp"><img src="assets/red-fan.webp" srcset="assets/red-fan-640.webp 640w, assets/red-fan.webp 1280w" sizes="(max-width: 760px) 92vw, 55vw" alt="A crowd with a bright red fan." width="1280" height="851" loading="lazy" decoding="async"></a></div>
       </section>
       <section class="visuals" id="visuals" aria-labelledby="visuals-title">
         <div class="red-stage">
-          <a class="photo red-image" href="assets/triangle-laser.webp"><img src="assets/triangle-laser.webp" alt="Red lasers converge on a triangular light installation." width="1280" height="857" loading="lazy" decoding="async"></a>
+          <a class="photo red-image" href="assets/triangle-laser.webp"><img src="assets/triangle-laser.webp" srcset="assets/triangle-laser-640.webp 640w, assets/triangle-laser.webp 1280w" sizes="100vw" alt="Red lasers converge on a triangular light installation." width="1280" height="857" loading="lazy" decoding="async"></a>
           <div class="red-title"><span>SOUND INTO SPACE</span><h2 id="visuals-title">A VISION<br>AND DRIVE.</h2></div>
         </div>
-        <div class="section visual-story">
+        <div class="section visual-story" id="visual-story">
           <div class="section-heading"><span>VISUAL IDENTITY</span><span>BUILT BY US</span></div>
           <div class="visual-intro"><h3>USING<br>WHATEVER<br>WE HAD.</h3><p>We are proud of our visual identity and the creative projects we’ve managed to bring to life. We created many things using whatever we had at hand — with no budget and no idea of “how it’s supposed to be done.” But we definitely had a vision and drive.</p></div>
         </div>
         <div class="depth-gallery" id="gallery" aria-label="HOLYBERG photo archive">
           <div class="depth-stage">
             <div class="depth-controls" hidden>
-              <a href="#contact">EXIT ↗</a>
-              <span class="depth-counter">LAYER 01 / 11</span>
+              <a href="#events">EXIT ↗</a>
+              <span class="depth-counter"></span>
               <div><button type="button" aria-label="Previous layer">←</button><button type="button" aria-label="Next layer">→</button></div>
             </div>
-            <nav class="gallery-groups" aria-label="Gallery categories">
+            <nav class="gallery-groups" aria-label="Gallery categories" hidden>
               <button type="button" data-gallery-group="visuals" aria-pressed="true">VISUALS</button>
               <button type="button" data-gallery-group="people-process" aria-pressed="false">PEOPLE & PROCESS</button>
               <button type="button" data-gallery-group="party-videos" aria-pressed="false">PARTY VIDEOS</button>
               <button type="button" data-gallery-group="promo" aria-pressed="false">PROMO</button>
             </nav>
+            <label class="gallery-category" hidden><span class="visually-hidden">Gallery category</span>
+              <select><option value="visuals">Visuals</option><option value="people-process">People &amp; Process</option><option value="party-videos">Party Videos</option><option value="promo">Promo</option></select>
+            </label>
             <div class="installation-grid">
-<a class="photo" data-gallery="people-process" data-caption-link="https://ra.co/events/2544781" href="assets/events/claude-color.jpg"><img src="assets/events/claude-color.jpg" alt="Hands raised on the HOLYWORLD dance floor at Madame Claude" loading="lazy" decoding="async"><span class="photo-caption">Madame Claude</span></a>
-<a class="photo" data-gallery="people-process" data-caption-link="https://ra.co/events/2544781" href="assets/events/claude-mono.jpg"><img src="assets/events/claude-mono.jpg" alt="Black and white photograph of the crowd at Madame Claude" loading="lazy" decoding="async"><span class="photo-caption">Madame Claude</span></a>
+<a class="photo" data-gallery="people-process" data-caption-link="https://ra.co/events/2544781" href="assets/events/claude-color.jpg"><img src="assets/events/claude-color.jpg" width="1440" height="1152" alt="Hands raised on the HOLYWORLD dance floor at Madame Claude" loading="lazy" decoding="async"><span class="photo-caption">Madame Claude</span></a>
+<a class="photo" data-gallery="people-process" data-caption-link="https://ra.co/events/2544781" href="assets/events/claude-mono.jpg"><img src="assets/events/claude-mono.jpg" width="1440" height="1152" alt="Black and white photograph of the crowd at Madame Claude" loading="lazy" decoding="async"><span class="photo-caption">Madame Claude</span></a>
 <div class="gallery-clip" data-gallery="party-videos"><video controls playsinline preload="none" poster="assets/events/vova-atmos-1.jpg" aria-label="Vova Atmos, Bar stage · Clip 1">
                 <source src="assets/events/vova-atmos-1.mp4" type="video/mp4">
                 <a href="assets/events/vova-atmos-1.mp4">Watch Vova Atmos</a>
@@ -89,10 +99,10 @@
                 <a href="assets/events/koabo.mp4">Watch Koabo</a>
               </video><span class="photo-caption"><strong>Koabo · Electric Love</strong><span>Main stage</span> <a href="https://ra.co/events/2544781" target="_blank" rel="noopener noreferrer">HOLYWORLD event ↗</a> <a href="https://on.soundcloud.com/CRGeuN0TAkq0ZBT5ih" target="_blank" rel="noopener noreferrer">Listen on SoundCloud ↗</a></span></div>
               <a class="photo" id="gallery-gentrifckdich" data-gallery="people-process" data-caption-link="https://ra.co/events/2405072" href="assets/events/community.jpg"><img src="assets/events/community.jpg" alt="HOLYBERG organisers, residents and friends together after Gentrif*ckdich Vol. 3" width="1280" height="960" loading="lazy" decoding="async"><span class="photo-caption">HOLYBERG team, residents and friends · Gentrif*ckdich Vol. 3</span></a>
-            <a class="photo " data-gallery="visuals" href="assets/laser-crowd.webp"><img src="assets/laser-crowd.webp" alt="Red laser beams sweep over the crowd." width="978" height="1305" loading="lazy" decoding="async"></a><a class="photo " data-gallery="visuals" href="assets/boombox-projection.webp"><img src="assets/boombox-projection.webp" alt="A giant boombox projected above the stage." width="1280" height="1118" loading="lazy" decoding="async"></a><a class="photo wide" id="gallery-dust-n-roar" data-gallery="visuals" href="assets/green-projection-dust-n-roar.jpg" data-caption-link="https://ra.co/events/2261962"><img src="assets/green-projection-dust-n-roar.jpg" alt="HOLYBERG’s green projection artwork across the ://about blank facade at Dust’n’Roar" width="1100" height="869" loading="lazy" decoding="async"><span class="photo-caption">Projection by HOLYBERG · Dust’n’Roar at ://about blank</span></a><a class="photo" id="gallery-dust-exterior" data-gallery="visuals" href="assets/green-projection-exterior.jpg" data-caption-link="https://ra.co/events/2261962"><img src="assets/green-projection-exterior.jpg" alt="Green HOLYBERG projection on the exterior of ://about blank at night" width="591" height="1280" loading="lazy" decoding="async"><span class="photo-caption">Dust’n’Roar · ://about blank exterior</span></a><a class="photo " data-gallery="visuals" href="assets/amber-stage.webp"><img src="assets/amber-stage.webp" alt="Amber and red lights on a stage made from rectangular panels." width="1183" height="1300" loading="lazy" decoding="async"></a><a class="photo " data-gallery="visuals" href="assets/laser-truss.webp"><img src="assets/laser-truss.webp" alt="Red and blue lasers crossing a metal truss." width="924" height="1450" loading="lazy" decoding="async"></a>
+            <a class="photo " data-gallery="visuals" href="assets/laser-crowd.webp"><img src="assets/laser-crowd.webp" alt="Red laser beams sweep over the crowd." width="978" height="1305" loading="lazy" decoding="async"></a><a class="photo " data-gallery="visuals" href="assets/boombox-projection.webp"><img src="assets/boombox-projection.webp" alt="A giant boombox projected above the stage." width="1280" height="1118" loading="lazy" decoding="async"></a><a class="photo wide" id="gallery-dust-n-roar" data-gallery="visuals" href="assets/green-projection-dust-n-roar.jpg"><img src="assets/green-projection-dust-n-roar.jpg" alt="HOLYBERG’s green projection artwork across the ://about blank facade" width="1100" height="869" loading="lazy" decoding="async"><span class="photo-caption">Projection by HOLYBERG on the façade of ://about blank</span></a><a class="photo" id="gallery-dust-exterior" data-gallery="visuals" href="assets/green-projection-exterior.jpg"><img src="assets/green-projection-exterior.jpg" alt="Green HOLYBERG projection on the exterior of ://about blank at night" width="591" height="1280" loading="lazy" decoding="async"><span class="photo-caption">HOLYBERG projection · ://about blank exterior</span></a><a class="photo " data-gallery="visuals" href="assets/amber-stage.webp"><img src="assets/amber-stage.webp" alt="Amber and red lights on a stage made from rectangular panels." width="1183" height="1300" loading="lazy" decoding="async"></a><a class="photo " data-gallery="visuals" href="assets/laser-truss.webp"><img src="assets/laser-truss.webp" alt="Red and blue lasers crossing a metal truss." width="924" height="1450" loading="lazy" decoding="async"></a>
               <a class="photo" data-gallery="visuals" href="assets/red-lanterns.webp"><img src="assets/red-lanterns.webp" alt="A dance floor in silhouette under red lanterns." width="1262" height="712" loading="lazy" decoding="async"></a>
-              <a class="photo" data-gallery="people-process" data-caption-link="https://game.holyberg.net/" data-caption-link-label="Play the game ↗" href="assets/events/arcade.jpg"><img src="assets/events/arcade.jpg" alt="Setting up the HOLYWORLD game on Madame Claude’s arcade cabinet" width="1080" height="1440" loading="lazy" decoding="async"><span class="photo-caption">Installing the HOLYWORLD game at Madame Claude</span></a>
-              <a class="photo" data-gallery="people-process" data-caption-link="https://ra.co/events/2544781" href="assets/events/disus.jpg"><img src="assets/events/disus.jpg" alt="Disus holding a green backdrop at a Berlin U-Bahn station" loading="lazy" decoding="async"><span class="photo-caption">Disus behind the scenes of the Madame Claude promo</span></a>
+              <a class="photo" data-gallery="people-process" data-caption-link="https://game.holyberg.net/" data-caption-link-label="Play the game ↗" href="assets/events/arcade.jpg"><img src="assets/events/arcade.jpg" srcset="assets/events/arcade-640.webp 640w, assets/events/arcade.jpg 1080w" sizes="(max-width: 819px) 74vw, 390px" alt="Setting up the HOLYWORLD game on Madame Claude’s arcade cabinet" width="1080" height="1440" loading="lazy" decoding="async"><span class="photo-caption">Installing the HOLYWORLD game at Madame Claude</span></a>
+              <a class="photo" data-gallery="people-process" data-caption-link="https://ra.co/events/2544781" href="assets/events/disus.jpg"><img src="assets/events/disus.jpg" width="1080" height="1440" alt="Disus holding a green backdrop at a Berlin U-Bahn station" loading="lazy" decoding="async"><span class="photo-caption">Disus behind the scenes of the Madame Claude promo</span></a>
               <div class="gallery-clip" id="gallery-holyworld-promo" data-gallery="promo"><video controls playsinline preload="none" poster="assets/events/holyworld-promo.jpg"><source src="assets/events/holyworld-promo.mp4" type="video/mp4"></video><span class="photo-caption">HOLYWORLD · Madame Claude promo <a href="https://ra.co/events/2544781" target="_blank" rel="noopener noreferrer">HOLYWORLD event ↗</a> <a href="https://www.instagram.com/reel/DdWsV7ntbX1/" target="_blank" rel="noopener noreferrer">Instagram reel ↗</a></span></div>
               <div class="gallery-clip" data-gallery="promo"><video controls playsinline preload="none" poster="assets/events/wilder-promo.jpg"><source src="assets/events/wilder-promo.mp4" type="video/mp4"></video><span class="photo-caption">Wilder als erwartet · Event promo <a href="https://www.instagram.com/reel/DSNLhVSjcRx/" target="_blank" rel="noopener noreferrer">Instagram reel ↗</a></span></div>
             </div>
@@ -156,11 +166,17 @@
     <section class="game-cta section" id="game" aria-labelledby="game-title">
       <div class="section-heading"><span>ONE LAST THING</span><span>HOLYBERG GAME</span></div>
       <h2 id="game-title">But before...<br>play our game</h2>
-      <div class="game-frame"><iframe src="https://game.holyberg.net/" title="Play the HOLYBERG game" loading="lazy" allow="fullscreen; autoplay"></iframe></div>
+      <div class="game-frame" hidden>
+        <p class="game-status" role="status">Preparing HOLYBERG Game…</p>
+        <iframe data-src="https://game.holyberg.net/?embed=presskit" title="Play the HOLYBERG game" allow="fullscreen" referrerpolicy="origin" hidden></iframe>
+        <button class="game-fullscreen" type="button" hidden>Full screen</button>
+      </div>
+      <p class="game-rotate">Rotate your phone for the game.</p>
+      <p class="game-note" role="status" hidden></p>
       <a class="events-link" href="https://game.holyberg.net/" target="_blank" rel="noopener noreferrer">Open the game in a new tab ↗</a>
     </section>
-    <dialog class="photo-viewer" aria-label="Photo viewer">
-      <div class="viewer-frame"><button class="viewer-close" type="button" aria-label="Close photo" autofocus>×</button><img alt=""><div class="viewer-caption" hidden><span></span> <a hidden>Resident Advisor ↗</a></div></div>
+    <dialog class="photo-viewer" aria-label="Media viewer">
+      <div class="viewer-frame"><button class="viewer-close" type="button" aria-label="Close media" autofocus>×</button><img alt="" hidden><video controls playsinline preload="none" hidden></video><div class="viewer-caption" hidden></div></div>
     </dialog>
   </body>
 </html>
