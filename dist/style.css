@@ -280,6 +280,9 @@ html:has(.photo-viewer[open]) {
   font: 12px/1.45 monospace;
 }
 .photo-caption { display: block; }
+.photo-caption strong,
+.photo-caption > span,
+.photo-caption > a { display: inline-block; margin-right: .8em; }
 .viewer-caption { justify-self: stretch; }
 .viewer-caption a, .community-feature figcaption a {
   color: var(--highlight);
