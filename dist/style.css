@@ -335,12 +335,8 @@ html:has(.photo-viewer[open]) {
   .contact-socials { justify-content:flex-end; gap:4px 12px; }
 }
 
-/* Match the supplied editorial text reference throughout the page. */
-:root { font-family: Arial, Helvetica, sans-serif; color: #aaa7a4; }
-body, button, .navigation, .cover-bottom, .section-heading, .events-label, .events-link, .depth-controls, .gallery-groups, .spatial-hud, .photo-caption, figcaption, .contact-bottom { font-family: Arial, Helvetica, sans-serif; }
-p, h2, h3, h4, .events-label, .contact-link { color: #aaa7a4; font-family: Arial, Helvetica, sans-serif; }
-h2, h3 { font-weight: 500; }
-.events h2, .events h3, .booking-copy h2, .community-feature h2 { color: #aaa7a4; }
-.manifesto-copy h3 { color: #aaa7a4; }
-.gallery-groups button[aria-pressed="true"], .depth-counter, .events-link, .contact-socials a { color: #aaa7a4; }
-p { font-size: clamp(19px, 2.1vw, 32px); line-height: 1.6; }
+:root { color: var(--paper); }
+p, h2, h3, h4, .events-label, .contact-link { color: var(--ink); }
+.events h2, .events h3, .booking-copy h2, .community-feature h2 { color: var(--ink); }
+.manifesto-copy h3 { color: var(--ink); }
+.gallery-groups button[aria-pressed="true"], .depth-counter, .events-link, .contact-socials a { color: var(--ink); }
