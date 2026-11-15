@@ -1,29 +1,16 @@
-# HOLYBERG press kit
+# HOLYBERG editorial website
 
-## Source and layout
+## Direction and reference
+The user approved an editorial redesign inspired by Substance, after rejecting the previous decorative motion pass. The live reference at https://substancetm.framer.website/ was inspected in Chrome on 15 November 2026. Its computed display sizes were 96–112 px with tight tracking, secondary mono labels 11 px, warm white #edebe6, near-black #0a0a0a and large-scale photography with substantial negative space. Borrow the scale hierarchy and editorial composition for HOLYBERG's own images and content.
 
-The supplied 2480 × 19396 JPG is the reference for content, composition and artwork. A 1000-unit proportional grid describes the desktop layout. The document itself scrolls. The artwork reaches the edges of a centered 1120 px column on wider monitors.
+## Identity and tokens
+HOLYBERG green #5aba3f, canvas #050304, warm paper #edebe6, muted #a5a49e, neutral rule #343432. The original extracted HOLYBERG logo, mountain art and press-kit photographs remain the visual assets. Holyberg Press is the uppercase display type. Body uses system sans-serif at 17–20 px, 1.5 line-height. Navigation and section labels use system monospace at 11–12 px. Display sizes range from 34 px on phone to 100 px on wide desktop, with a 1120–1440 px content measure.
 
-- Cover art includes the green mountain illustration and original HOLYBERG logo. The HTML heading supplies its accessible name.
-- The opening statement, Kyiv origin story, Berlin community story and visual identity statement keep their original line breaks and size hierarchy on wide screens.
-- The photographs use independent rectangular crops from the JPG. Their placement is relative to each editorial spread. The lower installation photographs retain their original overlap.
-- Below 820 px, text uses a readable minimum size and wraps naturally. The image groups retain their proportions and alternate with the stories.
+## Composition
+Full-width green cover with black original logo and mountain silhouette, compact top navigation, collection identity and a scroll link. Manifesto on black with large green statement and a wide documentary image. Alternating editorial spreads combine readable text with portraits. A full-width red photograph announces the visual identity section. Installation photographs form a deliberate staggered two-column gallery. A large contact link closes the page.
 
-## Color and type
+## Behavior
+Document scrolling with ordinary anchor navigation. Images link to original assets and open a native modal when JS is available. Escape, close button and backdrop dismiss the viewer with focus restoration. One scroll-linked red-image expansion on desktop. Reduced-motion and small screens show full-size photography directly. All content is visible when JS is unavailable.
 
-- Canvas `#050304` and text `#5aba3f`, sampled from the JPG.
-- Holyberg Press uses outlined letterforms recovered from the supplied headings and body text. The desktop line scales come from the corresponding ink bounds in the image.
-- The contact link uses `#b4ee8c` on hover and a matching focus outline. Its destination is the verified HOLYBERG Instagram profile.
-
-## Components
-
-- Editorial spreads use a shared grid for copy and photographs.
-- A copy block contains semantic paragraphs with fluid line sizing.
-- Photographs reserve their aspect ratios and load as they approach the viewport. Informative photographs have alt text.
-
-## Motion and photo viewing
-
-- Separate layers from the original cover move with scroll. The original cover supplies the first paint and the reduced motion view.
-- Documentary photos fade and rise as they first enter the viewport. The installation collage adds a single warm red sweep on desktop. Phones use a shorter fade.
-- Photo links open a native dialog and retain their direct image destinations when JavaScript is unavailable. The dialog closes by button, Escape or a backdrop click and returns focus to the originating photo.
-- The only animation dependency is the locally served Motion 12.23.24 distribution.
+## Responsive contract
+Below 760 px, editorial columns stack, display typography scales down, all body text remains at least 16 px, and galleries use two columns with deliberate full-width images. Desktop gaps are 32–80 px and section padding 96–144 px. Mobile gaps are 16–32 px and section padding 64–80 px.
