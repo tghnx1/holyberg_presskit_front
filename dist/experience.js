@@ -46,16 +46,16 @@
   const gallery = document.querySelector('.depth-gallery');
   const galleryPhotos = [...gallery.querySelectorAll('.photo, .gallery-clip')];
   const galleryGrid = gallery.querySelector('.installation-grid');
-  const groupOrder = ['visuals', 'people-process', 'video'];
+  const groupOrder = ['visuals', 'people-process', 'party-videos', 'promo'];
   galleryPhotos.sort((a, b) => groupOrder.indexOf(a.dataset.gallery) - groupOrder.indexOf(b.dataset.gallery));
   galleryPhotos.forEach((item) => galleryGrid.append(item));
   const galleryTabs = [...gallery.querySelectorAll('[data-gallery-group]')];
   const controls = gallery.querySelector('.depth-controls');
   const counter = controls.querySelector('.depth-counter');
   const [previous, next] = controls.querySelectorAll('button');
-  const positions = [[.29, -.02], [-.26, .15], [.02, -.23], [.20, .19], [-.22, -.16], [.13, .02], [-.16, -.04]];
+  const positions = [[.34, -.03], [-.33, .17], [.02, -.25], [.29, .22], [-.31, -.18], [.13, .02], [-.12, -.04], [.38, .02], [-.38, .08]];
   const total = String(galleryPhotos.length).padStart(2, '0');
-  function updateGalleryHeight() { gallery.style.setProperty('--gallery-height', `${100 + (galleryPhotos.length - 1) * 80}svh`); }
+  function updateGalleryHeight() { gallery.style.setProperty('--gallery-height', `${100 + (galleryPhotos.length - 1) * 100}svh`); }
   updateGalleryHeight();
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   let frame = 0;
@@ -101,6 +101,13 @@
     if (index >= 0) goToLayer(index);
   }
   galleryTabs.forEach((tab) => tab.addEventListener('click', () => goToGroup(tab.dataset.galleryGroup)));
+  document.querySelectorAll('[data-gallery-target]').forEach((link) => link.addEventListener('click', (event) => {
+    const item = document.getElementById(link.dataset.galleryTarget);
+    const index = galleryPhotos.indexOf(item);
+    if (index < 0) return;
+    event.preventDefault();
+    goToLayer(index);
+  }));
   function updateActiveGroup() {
     const item = galleryPhotos[layer];
     const group = item?.dataset.gallery || 'visuals';
