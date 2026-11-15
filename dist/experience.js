@@ -45,12 +45,16 @@
 
   const gallery = document.querySelector('.depth-gallery');
   const galleryPhotos = [...gallery.querySelectorAll('.photo, .gallery-clip')];
+  const galleryTabs = [...gallery.querySelectorAll('[data-gallery-group]')];
+  let activeGroup = 'visuals';
   const controls = gallery.querySelector('.depth-controls');
   const counter = controls.querySelector('.depth-counter');
   const [previous, next] = controls.querySelectorAll('button');
   const positions = [[.29, -.02], [-.26, .15], [.02, -.23], [.20, .19], [-.22, -.16], [.13, .02], [-.16, -.04]];
   const total = String(galleryPhotos.length).padStart(2, '0');
-  gallery.style.setProperty('--gallery-height', `${100 + (galleryPhotos.length - 1) * 80}svh`);
+  function activePhotos() { return galleryPhotos.filter((item) => item.dataset.gallery === activeGroup); }
+  function updateGalleryHeight() { gallery.style.setProperty('--gallery-height', `${100 + (activePhotos().length - 1) * 80}svh`); }
+  updateGalleryHeight();
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   let frame = 0;
   let layer = 0;
@@ -61,11 +65,15 @@
     const stageHeight = gallery.firstElementChild.clientHeight;
     const travel = gallery.clientHeight - stageHeight;
     const progress = clamp(-gallery.getBoundingClientRect().top / Math.max(1, travel), 0, 1);
-    const distance = progress * (galleryPhotos.length - 1);
+    const visiblePhotos = activePhotos();
+    const distance = progress * (visiblePhotos.length - 1);
     layer = Math.round(distance);
-    counter.textContent = `LAYER ${String(layer + 1).padStart(2, '0')} / ${total}`;
+    counter.textContent = `LAYER ${String(layer + 1).padStart(2, '0')} / ${String(visiblePhotos.length).padStart(2, '0')}`;
 
-    galleryPhotos.forEach((photo, index) => {
+    galleryPhotos.forEach((photo) => {
+      const index = visiblePhotos.indexOf(photo);
+      photo.hidden = index < 0;
+      if (index < 0) return;
       const depth = index - distance;
       const scale = 1 / Math.max(.18, 1.3 + depth * .56);
       const [x, y] = positions[index % positions.length];
@@ -89,6 +97,7 @@
     scrollTo({ top: top + travel * clamp(index, 0, galleryPhotos.length - 1) / (galleryPhotos.length - 1), behavior });
   }
 
+  galleryTabs.forEach((tab) => tab.addEventListener('click', () => { activeGroup = tab.dataset.galleryGroup; galleryTabs.forEach((item) => item.setAttribute('aria-pressed', String(item === tab))); updateGalleryHeight(); renderGallery(); }));
   previous.addEventListener('click', () => goToLayer(layer - 1));
   next.addEventListener('click', () => goToLayer(layer + 1));
   gallery.addEventListener('focusin', (event) => {

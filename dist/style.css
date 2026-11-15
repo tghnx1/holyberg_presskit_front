@@ -303,3 +303,34 @@ html:has(.photo-viewer[open]) {
 .events-entry .event-community { margin-top:30px; max-width:900px; }
 .event-community img { width:100%; height:auto; }
 .photo-viewer .viewer-caption { font:12px/1.45 monospace; }
+
+.event-community { width:min(50%, 720px); }
+.gallery-groups {
+  position:absolute;
+  z-index:12;
+  top:76px;
+  left:var(--gutter);
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.gallery-groups button {
+  min-height:40px;
+  padding:0 13px;
+  border:1px solid #655f64;
+  border-radius:24px;
+  background:#0b090be8;
+  color:var(--paper);
+  font:10px monospace;
+  letter-spacing:.08em;
+  cursor:pointer;
+}
+.gallery-groups button[aria-pressed="true"] { color:var(--highlight); border-color:var(--highlight); }
+.gallery-clip[hidden], .installation-grid .photo[hidden] { display:none; }
+.contact-socials { display:flex; gap:18px; flex-wrap:wrap; }
+.contact-socials a { min-height:44px; display:inline-flex; align-items:center; }
+@media(max-width:760px) {
+  .event-community { width:100%; }
+  .gallery-groups { top:68px; }
+  .contact-socials { justify-content:flex-end; gap:4px 12px; }
+}
