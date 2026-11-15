@@ -96,7 +96,10 @@ if (typeof viewer.showModal === 'function') {
 
 const menu = document.querySelector('.section-menu');
 const cover = document.querySelector('.cover');
+const gameFrame = document.querySelector('.game-frame');
 const gallery = initGallery(reducedMotion, compact, viewer);
+let coverVisible = true;
+let gameVisible = false;
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && menu.open && !viewer.open) {
     menu.open = false;
@@ -117,10 +120,19 @@ document.querySelectorAll('.navigation a[href^="#"], .section-menu a[href^="#"]'
     target.focus({ preventScroll: true });
   });
 });
-new IntersectionObserver(([entry]) => {
-  menu.hidden = entry.isIntersecting;
+function updateMenu() {
+  menu.hidden = coverVisible || gameVisible;
   if (menu.hidden) menu.open = false;
-}, { threshold: 0 }).observe(cover);
+}
+
+new IntersectionObserver(([entry]) => {
+  coverVisible = entry.isIntersecting;
+  updateMenu();
+}).observe(cover);
+new IntersectionObserver(([entry]) => {
+  gameVisible = entry.intersectionRatio >= .25;
+  updateMenu();
+}, { threshold: .25 }).observe(gameFrame);
 
 const redStage = document.querySelector('.red-stage');
 const redImage = redStage.querySelector('.red-image');
