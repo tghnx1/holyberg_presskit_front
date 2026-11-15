@@ -31,6 +31,7 @@
         viewer.classList.toggle('has-caption', Boolean(label));
         caption.querySelector('span').textContent = label || '';
         captionLink.hidden = !eventLink;
+        captionLink.textContent = photo.dataset.captionLinkLabel || 'Resident Advisor ↗';
         if (eventLink) { captionLink.href = eventLink; captionLink.target = '_blank'; captionLink.rel = 'noopener noreferrer'; }
         viewer.showModal();
       });
@@ -110,6 +111,16 @@
     const index = galleryPhotos.findIndex((item) => item.dataset.gallery === group);
     if (index >= 0) goToLayer(index);
   }
+  let entryDirection = 1;
+  let lastScroll = scrollY;
+  let previouslyInside = false;
+  addEventListener('scroll', () => {
+    const rect = gallery.getBoundingClientRect();
+    const inside = rect.top <= 0 && rect.bottom > innerHeight;
+    if (inside && !previouslyInside && scrollY !== lastScroll) entryDirection = scrollY > lastScroll ? 1 : -1;
+    previouslyInside = inside;
+    lastScroll = scrollY;
+  }, { passive: true });
   const exitLink = controls.querySelector('a');
   exitLink.addEventListener('click', (event) => {
     if (reducedMotion.matches) return;
@@ -121,7 +132,8 @@
       completed = true;
       clearTimeout(fallback);
       removeEventListener('scrollend', finishRewind);
-      scrollTo({ top: scrollY + innerHeight * .2, behavior: 'smooth' });
+      const top = scrollY + gallery.getBoundingClientRect().top;
+      scrollTo({ top: entryDirection > 0 ? top + gallery.offsetHeight + innerHeight * .1 : Math.max(0, top - innerHeight * .2), behavior: 'smooth' });
     };
     addEventListener('scrollend', finishRewind, { once: true });
     fallback = setTimeout(finishRewind, 2600);
@@ -174,11 +186,29 @@
     image.style.transform = '';
     if (reducedMotion.matches || compact.matches) return;
     stopScroll = scroll((progress) => {
-      const scale = 0.9 + Math.min(progress * 2, 1) * 0.1;
+      const scale = 0.94 + Math.min(progress * 4, 1) * 0.06;
       image.style.transform = 'scale(' + scale + ')';
     }, { target: stage, offset: ['start end', 'end start'] });
   }
   reducedMotion.addEventListener('change', configureMotion);
   compact.addEventListener('change', configureMotion);
   configureMotion();
+
+  const moving = [...document.querySelectorAll('.manifesto h2, .manifesto-photo, .manifesto-copy h3, .manifesto-copy p, .people .story-copy, .people .photo, .visual-intro h3, .visual-intro p')];
+  let motionFrame = 0;
+  function moveContent() {
+    motionFrame = 0;
+    moving.forEach((element, index) => {
+      if (reducedMotion.matches) { element.style.translate = ''; return; }
+      const rect = element.getBoundingClientRect();
+      if (rect.bottom < -100 || rect.top > innerHeight + 100) return;
+      const progress = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - innerHeight / 2) / innerHeight));
+      element.style.translate = `0 ${progress * [20, -30, 12, -15, 24][index % 5]}px`;
+    });
+  }
+  function scheduleContentMotion() { if (!motionFrame) motionFrame = requestAnimationFrame(moveContent); }
+  addEventListener('scroll', scheduleContentMotion, { passive: true });
+  addEventListener('resize', scheduleContentMotion);
+  reducedMotion.addEventListener('change', scheduleContentMotion);
+  moveContent();
 })();
