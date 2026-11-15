@@ -44,7 +44,7 @@
 
 
   const gallery = document.querySelector('.depth-gallery');
-  const galleryPhotos = [...gallery.querySelectorAll('.photo')];
+  const galleryPhotos = [...gallery.querySelectorAll('.photo, .gallery-clip')];
   const controls = gallery.querySelector('.depth-controls');
   const counter = controls.querySelector('.depth-counter');
   const [previous, next] = controls.querySelectorAll('button');
@@ -68,7 +68,7 @@
     galleryPhotos.forEach((photo, index) => {
       const depth = index - distance;
       const scale = 1 / Math.max(.18, 1.3 + depth * .56);
-      const [x, y] = positions[index];
+      const [x, y] = positions[index % positions.length];
       const fade = clamp((depth + 2.04) / .38, 0, 1);
       photo.style.left = `${50 + 100 * x * scale}%`;
       photo.style.top = `${49 + 100 * y * scale}%`;
@@ -92,7 +92,7 @@
   previous.addEventListener('click', () => goToLayer(layer - 1));
   next.addEventListener('click', () => goToLayer(layer + 1));
   gallery.addEventListener('focusin', (event) => {
-    const index = galleryPhotos.indexOf(event.target);
+    const index = galleryPhotos.findIndex((item) => item === event.target || item.contains(event.target));
     if (index >= 0 && !reducedMotion.matches && !viewer.open && event.target.matches(':focus-visible')) {
       goToLayer(index, 'instant');
     }
