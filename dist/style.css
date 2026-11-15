@@ -82,8 +82,6 @@ p { font-size: clamp(16px, 1.35vw, 20px); line-height: 1.6; }
 .installation-grid .photo:nth-child(2) { margin-top: 150px; }
 .installation-grid .wide { grid-column: 1/-1; width: 80%; margin: 0 auto; }
 .installation-grid .photo:last-child { margin-top: 120px; }
-.closing-image { margin: 120px 0 0; }
-.closing-image img { aspect-ratio: 2.5; object-fit: cover; }
 .contact { padding-top: 40px; padding-bottom: 32px; }
 .contact-link { display: block; font-family: "Holyberg Press", monospace; font-size: clamp(56px, 11vw, 168px); line-height: 1.03; color: var(--ink); padding-block: 32px 72px; }
 .contact-link > span { font-family: Arial, sans-serif; display: inline-block; margin-left: 10%; }
@@ -125,8 +123,6 @@ p { font-size: clamp(16px, 1.35vw, 20px); line-height: 1.6; }
   .installation-grid .photo:nth-child(2) { margin-top: 60px; }
   .installation-grid .wide { width: 100%; }
   .installation-grid .photo:last-child { margin-top: 52px; }
-  .closing-image { margin-top: 64px; }
-  .closing-image img { aspect-ratio: 1.6; }
   .contact-link { font-size: clamp(41px, 10.6vw, 78px); padding-block: 16px 48px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -184,3 +180,47 @@ html:has(.photo-viewer[open]) {
   font: 1.5rem/1 system-ui, sans-serif;
   cursor: pointer;
 }
+
+.depth-gallery:not(.is-spatial) .installation-grid { padding: 0 var(--gutter) var(--section-space); }
+.depth-gallery.is-spatial { height: 500svh; }
+.is-spatial .depth-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 50% 46%, #191719, #0b090b 78%);
+}
+.is-spatial .installation-grid { position: absolute; inset: 0; display: block; }
+.is-spatial .installation-grid .photo {
+  position: absolute;
+  width: clamp(135px, 23vw, 390px);
+  max-width: 49vw;
+  margin: 0;
+  overflow: visible;
+}
+.is-spatial .photo img { max-height: 57svh; object-fit: cover; }
+.depth-controls:not([hidden]) {
+  position: absolute;
+  z-index: 10;
+  inset: max(12px, env(safe-area-inset-top)) var(--gutter) auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 11px/1.4 monospace;
+  letter-spacing: .1em;
+  pointer-events: none;
+}
+.depth-controls a, .depth-controls button {
+  padding: 0 12px;
+  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  pointer-events: auto;
+  color: var(--paper);
+  background: #0b090b;
+  border: 1px solid #6d676c;
+  border-radius: 30px;
+}
+.depth-controls button { cursor: pointer; margin-left: 4px; }
+.depth-counter { color: var(--highlight); }
