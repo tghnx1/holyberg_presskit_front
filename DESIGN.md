@@ -7,7 +7,7 @@ The supplied 2480 × 19396 JPG is the reference for content, composition and art
 - Cover art includes the green mountain illustration and original HOLYBERG logo. The HTML heading supplies its accessible name.
 - The opening statement, Kyiv origin story, Berlin community story and visual identity statement keep their original line breaks and size hierarchy on wide screens.
 - The photographs use independent rectangular crops from the JPG. Their placement is relative to each editorial spread. The lower installation photographs retain their original overlap.
-- Below 720 px, text uses a readable minimum size and wraps naturally. The image groups retain their proportions and alternate with the stories.
+- Below 820 px, text uses a readable minimum size and wraps naturally. The image groups retain their proportions and alternate with the stories.
 
 ## Color and type
 

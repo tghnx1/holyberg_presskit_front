@@ -115,7 +115,7 @@ h1, h2 {
 }
 
 .community {
-  --following-gap: 59;
+  --following-gap: 61;
 }
 
 .berlin {
@@ -123,13 +123,13 @@ h1, h2 {
 }
 
 .identity {
-  --following-gap: 58;
+  --following-gap: 63;
 }
 
 .contact {
   display: flex;
   justify-content: center;
-  padding-block: calc(343 * var(--unit)) calc(511 * var(--unit));
+  padding-block: calc(352 * var(--unit)) calc(507 * var(--unit));
 }
 
 .contact a {
@@ -137,6 +137,7 @@ h1, h2 {
   align-items: center;
   min-block-size: 44px;
   padding-inline: 0.5rem;
+  margin-inline-end: calc(14 * var(--unit));
   color: inherit;
   text-decoration: none;
 }
@@ -206,6 +207,10 @@ h1, h2 {
 
   .contact {
     padding-block: 5rem 7rem;
+  }
+
+  .contact a {
+    margin-inline-end: 0;
   }
 
   .contact .line {
