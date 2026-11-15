@@ -31,7 +31,7 @@
         viewer.classList.toggle('has-caption', Boolean(label));
         caption.querySelector('span').textContent = label || '';
         captionLink.hidden = !eventLink;
-        if (eventLink) captionLink.href = eventLink;
+        if (eventLink) { captionLink.href = eventLink; captionLink.target = '_blank'; captionLink.rel = 'noopener noreferrer'; }
         viewer.showModal();
       });
     }
