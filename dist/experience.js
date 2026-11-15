@@ -63,7 +63,9 @@
   const [previous, next] = controls.querySelectorAll('button');
   const positions = [[.34, -.03], [-.33, .17], [.02, -.25], [.29, .22], [-.31, -.18], [.13, .02], [-.12, -.04], [.38, .02], [-.38, .08]];
   const total = String(galleryPhotos.length).padStart(2, '0');
-  function updateGalleryHeight() { gallery.style.setProperty('--gallery-height', `${100 + (galleryPhotos.length - 1) * 100}svh`); }
+  const exitHold = () => innerHeight * .8;
+  function updateGalleryHeight() { gallery.style.setProperty('--gallery-height', `${180 + (galleryPhotos.length - 1) * 100}svh`); }
+  function activeGalleryTravel() { return Math.max(1, gallery.clientHeight - gallery.firstElementChild.clientHeight - exitHold()); }
   updateGalleryHeight();
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   let frame = 0;
@@ -73,8 +75,8 @@
     frame = 0;
     if (reducedMotion.matches) return;
     const stageHeight = gallery.firstElementChild.clientHeight;
-    const travel = gallery.clientHeight - stageHeight;
-    const progress = clamp(-gallery.getBoundingClientRect().top / Math.max(1, travel), 0, 1);
+    const travel = activeGalleryTravel();
+    const progress = clamp(-gallery.getBoundingClientRect().top / travel, 0, 1);
     const distance = progress * (galleryPhotos.length - 1);
     layer = Math.round(distance);
     counter.textContent = `LAYER ${String(layer + 1).padStart(2, '0')} / ${String(galleryPhotos.length).padStart(2, '0')}`;
@@ -84,12 +86,12 @@
       const depth = index - distance;
       const scale = 1 / Math.max(.18, 1.3 + depth * .56);
       const [x, y] = positions[index % positions.length];
-      const fade = clamp((depth + 2.04) / .38, 0, 1);
+      const fade = clamp((2.04 - Math.abs(depth)) / .38, 0, 1);
       photo.style.left = `${50 + 100 * x * scale}%`;
       photo.style.top = `${49 + 100 * y * scale}%`;
       photo.style.transform = `translate(-50%, -50%) scale(${scale})`;
       photo.style.opacity = String(fade * clamp(1 - depth * .18, 0, 1));
-      photo.style.zIndex = String(galleryPhotos.length - index);
+      photo.style.zIndex = String(Math.round(1000 - Math.abs(depth) * 100));
       photo.style.visibility = fade ? 'visible' : 'hidden';
     });
   }
@@ -100,7 +102,7 @@
 
   function goToLayer(index, behavior = 'smooth') {
     const top = scrollY + gallery.getBoundingClientRect().top;
-    const travel = gallery.clientHeight - gallery.firstElementChild.clientHeight;
+    const travel = activeGalleryTravel();
     scrollTo({ top: top + travel * clamp(index, 0, galleryPhotos.length - 1) / (galleryPhotos.length - 1), behavior });
   }
 
@@ -108,6 +110,23 @@
     const index = galleryPhotos.findIndex((item) => item.dataset.gallery === group);
     if (index >= 0) goToLayer(index);
   }
+  const exitLink = controls.querySelector('a');
+  exitLink.addEventListener('click', (event) => {
+    if (reducedMotion.matches) return;
+    event.preventDefault();
+    let completed = false;
+    let fallback;
+    const finishRewind = () => {
+      if (completed) return;
+      completed = true;
+      clearTimeout(fallback);
+      removeEventListener('scrollend', finishRewind);
+      scrollTo({ top: scrollY + innerHeight * .2, behavior: 'smooth' });
+    };
+    addEventListener('scrollend', finishRewind, { once: true });
+    fallback = setTimeout(finishRewind, 2600);
+    goToLayer(0);
+  });
   galleryTabs.forEach((tab) => tab.addEventListener('click', () => goToGroup(tab.dataset.galleryGroup)));
   document.querySelectorAll('[data-gallery-target]').forEach((link) => link.addEventListener('click', (event) => {
     const item = document.getElementById(link.dataset.galleryTarget);
