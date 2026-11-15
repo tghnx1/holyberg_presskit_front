@@ -6,6 +6,14 @@
   const captionLink = caption.querySelector('a');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const compact = matchMedia('(max-width: 819px)');
+
+  document.querySelectorAll('.navigation a[href^="#"]').forEach((link) => link.addEventListener('click', (event) => {
+    const target = document.getElementById(link.hash.slice(1));
+    if (!target) return;
+    event.preventDefault();
+    history.pushState(null, '', link.hash);
+    target.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
+  }));
   let opener;
   let startedOnBackdrop;
 

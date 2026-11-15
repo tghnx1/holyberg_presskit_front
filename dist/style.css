@@ -189,7 +189,7 @@ html:has(.photo-viewer[open]) {
   height: 100svh;
   overflow: clip;
   isolation: isolate;
-  background: radial-gradient(ellipse at 50% 46%, #191719, #0b090b 78%);
+  background: #000;
 }
 .is-spatial .installation-grid { position: absolute; inset: 0; display: block; }
 .is-spatial .installation-grid .photo {
