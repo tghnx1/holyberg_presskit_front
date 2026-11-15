@@ -340,3 +340,9 @@ p, h2, h3, h4, .events-label, .contact-link { color: var(--ink); }
 .events h2, .events h3, .booking-copy h2, .community-feature h2 { color: var(--ink); }
 .manifesto-copy h3 { color: var(--ink); }
 .gallery-groups button[aria-pressed="true"], .depth-counter, .events-link, .contact-socials a { color: var(--ink); }
+
+/* Apply the HOLYBERG heading face and green brand color to every text element. */
+body, body * {
+  font-family: "Holyberg Press", monospace !important;
+  color: var(--ink) !important;
+}
