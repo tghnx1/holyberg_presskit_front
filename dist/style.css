@@ -268,6 +268,10 @@ html:has(.photo-viewer[open]) {
 .events-videos figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
 .events-videos strong { color: var(--paper); }
 .booking-copy h2 { font-size: clamp(26px, 4vw, 52px); margin-bottom: 12px; }
+.game-cta { padding-top: clamp(80px, 12vw, 180px); }
+.game-cta h2 { max-width: 12ch; margin: 20px 0 34px; color: var(--ink); font-size: clamp(42px, 8vw, 120px); line-height: .92; }
+.game-frame { width: 100%; min-height: min(72svh, 820px); border: 1px solid var(--rule); background: #000; overflow: hidden; }
+.game-frame iframe { display: block; width: 100%; height: min(72svh, 820px); border: 0; background: #000; }
 @media (max-width: 760px) {
   .events-intro, .events-videos { grid-template-columns: 1fr; }
   .events-photos:not(.events-process) { grid-template-columns: 1fr; }
