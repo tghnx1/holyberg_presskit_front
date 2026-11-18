@@ -572,3 +572,55 @@ body p, .manifesto-copy p, .story-copy p, .visual-intro p, .events-label { color
   .roster-grid:not(.roster-crew),
   .roster-crew { grid-template-columns: minmax(0, 1fr); }
 }
+
+
+/* HOLYBERG sonic profile — the same genre hierarchy as the 2026 press kit */
+.sonic-profile {
+  margin-top: clamp(64px, 9vw, 140px);
+  margin-bottom: clamp(64px, 9vw, 140px);
+}
+.sonic-profile .section-heading { margin-bottom: clamp(24px, 4vw, 48px); }
+.sonic-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(20px, 5vw, 90px);
+  align-items: end;
+  margin-bottom: clamp(28px, 5vw, 64px);
+}
+.sonic-intro h3 {
+  margin: 0;
+  color: var(--ink);
+  font: 400 clamp(30px, 4.3vw, 66px)/1.1 "Holyberg Press", monospace;
+}
+.sonic-intro p {
+  max-width: 570px;
+  color: var(--paper);
+  font: clamp(16px, 1.35vw, 20px)/1.55 Arial, sans-serif;
+}
+.sonic-groups { display: grid; gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.sonic-group { padding: clamp(18px, 2.5vw, 38px); background: #111610; }
+.sonic-group-extended { background: #0d100d; }
+.sonic-group h4 {
+  margin: 0 0 16px;
+  color: var(--highlight);
+  font: 12px/1.4 "Holyberg Press", monospace;
+  letter-spacing: .08em;
+}
+.sonic-tags { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; list-style: none; }
+.sonic-tags li {
+  border: 1px solid #4c7540;
+  background: #1b2918;
+  color: var(--paper);
+  padding: 12px 18px;
+  font: 400 clamp(15px, 1.55vw, 22px)/1.25 "Holyberg Press", monospace;
+}
+.sonic-group-extended .sonic-tags li {
+  background: transparent;
+  border-color: #475044;
+  color: var(--muted);
+}
+@media (max-width: 760px) {
+  .sonic-intro { grid-template-columns: minmax(0, 1fr); }
+  .sonic-tags { gap: 7px; }
+  .sonic-tags li { padding: 10px 12px; }
+}
