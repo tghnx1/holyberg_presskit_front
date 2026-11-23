@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "dist"
 ASSETS = SITE / "assets"
 OUTPUT = ASSETS / "HOLYBERG-press-kit.pdf"
-QR_URL = "https://holyberg.net"
+QR_URL = "https://bio.holyberg.net/"
 PAGE_W, PAGE_H = A4
 MARGIN = 34
 CONTENT_W = PAGE_W - MARGIN * 2
@@ -349,7 +349,7 @@ def draw_footer(c: canvas.Canvas, content: dict, body: str) -> None:
     c.drawImage(ImageReader(qr_image), qr_x, qr_y, qr_size, qr_size, preserveAspectRatio=True, mask="auto")
     c.linkURL(QR_URL, (qr_x, qr_y, qr_x + qr_size, qr_y + qr_size), relative=0)
 
-    link_text = "HOLYBERG.NET"
+    link_text = "BIO.HOLYBERG.NET"
     c.setFillColor(GREEN)
     c.setFont("Courier-Bold", 7)
     link_w = pdfmetrics.stringWidth(link_text, "Courier-Bold", 7)
