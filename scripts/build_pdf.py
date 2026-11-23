@@ -199,9 +199,9 @@ def draw_intro(c: canvas.Canvas, content: dict, body: str) -> float:
 
     copy_w = CONTENT_W - 190
     y = top - 16
-    for index, paragraph in enumerate(content["about"]):
-        y = draw_wrapped(c, paragraph, MARGIN, y, copy_w, body, 7.9, 9.6, PAPER, limit=3 if index == 0 else 6)
-        y -= 3
+    for paragraph in content["about"]:
+        y = draw_wrapped(c, paragraph, MARGIN, y, copy_w, body, 7.9, 9.6, PAPER, limit=3)
+        y -= 2.5
     draw_wrapped(c, content["audience"], MARGIN, y - 1, copy_w, body, 7.4, 9.2, MUTED, limit=2)
     return PAGE_H - 212
 
