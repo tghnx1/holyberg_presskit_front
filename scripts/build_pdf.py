@@ -352,7 +352,7 @@ def draw_people(c: canvas.Canvas, content: dict, x: float, top: float,
     y = draw_guest_links(c, content["guests"], x, y - 16, width, body)
 
     draw_label(c, "Formation", x, y - 14)
-    y = draw_wrapped(c, content["formation"], x, y - 28, width, body, 6.7, 8.3, MUTED, limit=3)
+    y = draw_wrapped(c, content["formation"], x, y - 28, width, body, 6.4, 8.0, MUTED, limit=5)
     return y
 
 
