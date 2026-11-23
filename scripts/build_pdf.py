@@ -165,18 +165,36 @@ def draw_header(c: canvas.Canvas, display: str) -> None:
     c.line(MARGIN, PAGE_H - 73, PAGE_W - MARGIN, PAGE_H - 73)
 
 
+def draw_qr(c: canvas.Canvas, x: float, y: float, size: float) -> None:
+    qr = qrcode.QRCode(version=None, error_correction=ERROR_CORRECT_H, box_size=10, border=4)
+    qr.add_data(QR_URL)
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+    c.setFillColor(PAPER)
+    c.rect(x - 4, y - 4, size + 8, size + 8, fill=1, stroke=0)
+    c.drawImage(ImageReader(qr_image), x, y, size, size, preserveAspectRatio=True, mask="auto")
+    c.linkURL(QR_URL, (x, y, x + size, y + size), relative=0)
+
+
 def draw_intro(c: canvas.Canvas, content: dict, body: str) -> float:
     top = PAGE_H - 88
     draw_label(c, "Independent art & music collective", MARGIN, top)
 
-    photo_path = ASSETS / "dj-booth.webp"
-    photo_w, photo_h = 168, 118
-    photo_x = PAGE_W - MARGIN - photo_w
-    with Image.open(photo_path) as image:
-        c.drawImage(ImageReader(image.convert("RGB")), photo_x, PAGE_H - 204,
-                    photo_w, photo_h, preserveAspectRatio=True, anchor="c", mask="auto")
+    slot_x = PAGE_W - MARGIN - 168
+    slot_w = 168
+    qr_size = 100
+    qr_x = slot_x + (slot_w - qr_size) / 2
+    qr_y = PAGE_H - 196
+    draw_qr(c, qr_x, qr_y, qr_size)
+    link_text = "BIO.HOLYBERG.NET"
+    c.setFillColor(GREEN)
+    c.setFont("Courier-Bold", 6.5)
+    link_w = pdfmetrics.stringWidth(link_text, "Courier-Bold", 6.5)
+    c.drawCentredString(qr_x + qr_size / 2, qr_y - 10, link_text)
+    c.linkURL(QR_URL, (qr_x + qr_size / 2 - link_w / 2, qr_y - 13,
+                       qr_x + qr_size / 2 + link_w / 2, qr_y - 3), relative=0)
 
-    copy_w = CONTENT_W - photo_w - 22
+    copy_w = CONTENT_W - 190
     y = top - 16
     for index, paragraph in enumerate(content["about"]):
         y = draw_wrapped(c, paragraph, MARGIN, y, copy_w, body, 7.9, 9.6, PAPER, limit=3 if index == 0 else 6)
@@ -336,25 +354,6 @@ def draw_footer(c: canvas.Canvas, content: dict, body: str) -> None:
         label_w = pdfmetrics.stringWidth(label_text, "Courier-Bold", 6.6)
         c.linkURL(url, (social_x, 58, social_x + label_w, 68), relative=0)
         social_x += label_w + 14
-
-    qr_size = 58
-    qr_x = (PAGE_W - qr_size) / 2
-    qr_y = 134
-    qr = qrcode.QRCode(version=None, error_correction=ERROR_CORRECT_H, box_size=10, border=4)
-    qr.add_data(QR_URL)
-    qr.make(fit=True)
-    qr_image = qr.make_image(fill_color="black", back_color="white").convert("RGB")
-    c.setFillColor(PAPER)
-    c.rect(qr_x - 4, qr_y - 4, qr_size + 8, qr_size + 8, fill=1, stroke=0)
-    c.drawImage(ImageReader(qr_image), qr_x, qr_y, qr_size, qr_size, preserveAspectRatio=True, mask="auto")
-    c.linkURL(QR_URL, (qr_x, qr_y, qr_x + qr_size, qr_y + qr_size), relative=0)
-
-    link_text = "BIO.HOLYBERG.NET"
-    c.setFillColor(GREEN)
-    c.setFont("Courier-Bold", 7)
-    link_w = pdfmetrics.stringWidth(link_text, "Courier-Bold", 7)
-    c.drawCentredString(PAGE_W / 2, 122, link_text)
-    c.linkURL(QR_URL, (PAGE_W / 2 - link_w / 2, 119, PAGE_W / 2 + link_w / 2, 129), relative=0)
 
 
 def build_pdf() -> None:
