@@ -249,7 +249,7 @@ def draw_spectrum(c: canvas.Canvas, content: dict, x: float, top: float,
     c.setStrokeColor(RULE)
     c.setLineWidth(.7)
     c.line(x, genre_y - 5, x + width, genre_y - 5)
-    draw_label(c, "Individual DJ projects", x, genre_y - 19)
+    draw_label(c, "Part of the Berlin scene", x, genre_y - 19)
     project_y = genre_y - 33
     for paragraph in content["outside"]:
         project_y = draw_wrapped(c, paragraph, x, project_y, width, body, 6.8, 8.4, MUTED, limit=3) - 3
