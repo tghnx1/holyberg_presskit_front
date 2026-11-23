@@ -338,8 +338,8 @@ def draw_footer(c: canvas.Canvas, content: dict, body: str) -> None:
         social_x += label_w + 14
 
     qr_size = 58
-    qr_x = PAGE_W - MARGIN - qr_size
-    qr_y = 44
+    qr_x = (PAGE_W - qr_size) / 2
+    qr_y = 134
     qr = qrcode.QRCode(version=None, error_correction=ERROR_CORRECT_H, box_size=10, border=4)
     qr.add_data(QR_URL)
     qr.make(fit=True)
@@ -348,9 +348,13 @@ def draw_footer(c: canvas.Canvas, content: dict, body: str) -> None:
     c.rect(qr_x - 4, qr_y - 4, qr_size + 8, qr_size + 8, fill=1, stroke=0)
     c.drawImage(ImageReader(qr_image), qr_x, qr_y, qr_size, qr_size, preserveAspectRatio=True, mask="auto")
     c.linkURL(QR_URL, (qr_x, qr_y, qr_x + qr_size, qr_y + qr_size), relative=0)
+
+    link_text = "HOLYBERG.NET"
     c.setFillColor(GREEN)
-    c.setFont("Courier-Bold", 6.4)
-    c.drawRightString(PAGE_W - MARGIN, 34, "SCAN · HOLYBERG.NET")
+    c.setFont("Courier-Bold", 7)
+    link_w = pdfmetrics.stringWidth(link_text, "Courier-Bold", 7)
+    c.drawCentredString(PAGE_W / 2, 122, link_text)
+    c.linkURL(QR_URL, (PAGE_W / 2 - link_w / 2, 119, PAGE_W / 2 + link_w / 2, 129), relative=0)
 
 
 def build_pdf() -> None:
@@ -374,7 +378,7 @@ def build_pdf() -> None:
     draw_spectrum(c, content, MARGIN, band_top, left_w, display, body)
     draw_people(c, content, right_x, band_top, right_w, body)
 
-    event_top = band_top - 206
+    event_top = band_top - 198
     draw_label(c, "Selected events  /  2025—2026", MARGIN, event_top)
     gap = 24
     col_w = (CONTENT_W - gap) / 2
