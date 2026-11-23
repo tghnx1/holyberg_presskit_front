@@ -202,7 +202,7 @@ def draw_intro(c: canvas.Canvas, content: dict, body: str) -> float:
     for paragraph in content["about"]:
         y = draw_wrapped(c, paragraph, MARGIN, y, copy_w, body, 7.9, 9.6, PAPER, limit=3)
         y -= 2.5
-    draw_wrapped(c, content["audience"], MARGIN, y - 1, copy_w, body, 7.4, 9.2, MUTED, limit=2)
+    draw_wrapped(c, content["audience"], MARGIN, y - 6, copy_w, body, 7.4, 9.2, MUTED, limit=2)
     return PAGE_H - 212
 
 
@@ -351,8 +351,8 @@ def draw_people(c: canvas.Canvas, content: dict, x: float, top: float,
     draw_label(c, "Guest artists", x, y - 3)
     y = draw_guest_links(c, content["guests"], x, y - 16, width, body)
 
-    draw_label(c, "Formation", x, y - 5)
-    y = draw_wrapped(c, content["formation"], x, y - 19, width, body, 6.7, 8.3, MUTED, limit=3)
+    draw_label(c, "Formation", x, y - 14)
+    y = draw_wrapped(c, content["formation"], x, y - 28, width, body, 6.7, 8.3, MUTED, limit=3)
     return y
 
 
@@ -443,7 +443,7 @@ def build_pdf() -> None:
     draw_spectrum(c, content, MARGIN, band_top, left_w, display, body)
     draw_people(c, content, right_x, band_top, right_w, body)
 
-    event_top = band_top - 198
+    event_top = band_top - 214
     draw_label(c, "Selected events  /  2025—2026", MARGIN, event_top)
     gap = 24
     col_w = (CONTENT_W - gap) / 2
