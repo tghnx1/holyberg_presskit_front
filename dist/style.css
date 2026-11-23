@@ -248,6 +248,21 @@ html:has(.photo-viewer[open]) {
   font: 12px/1.55 monospace;
 }
 .events-intro { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: end; }
+.presskit-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  width: fit-content;
+  min-height: 56px;
+  padding: 0 20px;
+  color: var(--canvas);
+  background: var(--ink);
+  font: 12px/1.4 monospace;
+  letter-spacing: .06em;
+}
+.presskit-download:hover { background: var(--highlight); }
+.presskit-download span { font: 18px/1 Arial, sans-serif; }
 .events h2, .events h3, .booking-copy h2 { color: var(--ink); }
 .events-intro p, .events-entry > p:not(.events-label), .booking-copy p { max-width: 56ch; }
 .events-entry { border-top: 1px solid var(--rule); padding-top: 30px; margin-top: clamp(56px, 9vw, 128px); }
@@ -505,7 +520,7 @@ body p, .manifesto-copy p, .story-copy p, .visual-intro p, .events-label { color
 }
 
 .press-metrics {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: clamp(28px, 5vw, 64px) 0 clamp(20px, 3vw, 40px);
   border-top: 2px solid var(--ink);
 }
@@ -563,6 +578,7 @@ body p, .manifesto-copy p, .story-copy p, .visual-intro p, .events-label { color
 @media (max-width: 760px) {
   .roster-grid:not(.roster-crew),
   .press-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .press-metrics > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
   .press-notes,
   .event-grid { grid-template-columns: minmax(0, 1fr); }

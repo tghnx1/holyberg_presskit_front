@@ -1,0 +1,5 @@
+beautifulsoup4>=4.14,<5
+fonttools[woff]>=4.50,<5
+Pillow>=10,<14
+qrcode[pil]>=8,<9
+reportlab>=4.2,<6
