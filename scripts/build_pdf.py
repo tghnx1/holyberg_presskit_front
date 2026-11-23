@@ -382,7 +382,7 @@ def draw_event(c: canvas.Canvas, event: dict, x: float, top: float, width: float
         y -= 9.5
 
     if event["description"]:
-        y = draw_wrapped(c, event["description"], x, y, width, body, 6.6, 8.1, MUTED, limit=1)
+        y = draw_wrapped(c, event["description"], x, y, width, body, 6.6, 8.1, MUTED, limit=2)
 
     link_x = x
     c.setFont("Courier", 6)
