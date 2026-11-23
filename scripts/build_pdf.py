@@ -90,13 +90,16 @@ def load_site_content() -> dict:
     sound = soup.select_one(".sonic-intro p")
     sound_groups = [(text(group.select_one("h4")), [text(tag) for tag in group.select(".sonic-tags li")])
                     for group in soup.select(".sonic-group")]
-    residents = [(text(card.select_one("h4")), text(card.select_one("p")))
+    residents = [(text(card.select_one("h4")), text(card.select_one("p")),
+                  [(text(link), link.get("href", "")) for link in card.select(".press-links a")])
                  for card in soup.select("#collective-details .roster-grid:first-of-type .roster-card")]
     crew_list = soup.select_one("#collective-details .roster-grid.roster-crew")
-    crew = [(text(card.select_one("h4")), text(card.select_one("p")))
+    crew = [(text(card.select_one("h4")), text(card.select_one("p")),
+             [(text(link), link.get("href", "")) for link in card.select(".press-links a")])
             for card in crew_list.select(".roster-card")] if crew_list else []
     guest_heading = soup.select_one("#guest-artists-title")
-    guests = [text(item) for item in guest_heading.find_next("ul").select("li")] if guest_heading else []
+    guests = [(text(link), link.get("href", ""))
+              for link in guest_heading.find_next("ul").select("li a")] if guest_heading else []
 
     about = [text(p) for p in soup.select(".manifesto-copy > p")]
     audience = text(soup.select_one(".events-intro > p"))
@@ -235,10 +238,13 @@ def draw_spectrum(c: canvas.Canvas, content: dict, x: float, top: float,
         c.setFillColor(MUTED)
         c.setFont("Courier-Bold", 6.4)
         c.drawString(x, genre_y, group_name.upper())
+        tag_value = "  ·  ".join(genre.upper() for genre in genres[:4])
+        tag_lines = fit_lines(tag_value, "Courier", 6.0, width - 90, 2)
         c.setFillColor(GREEN)
-        c.setFont("Courier", 6.4)
-        c.drawString(x + 96, genre_y, "   ·   ".join(genre.upper() for genre in genres[:4]))
-        genre_y -= 10.5
+        c.setFont("Courier", 6.0)
+        for line_index, line in enumerate(tag_lines):
+            c.drawString(x + 90, genre_y - line_index * 8, line)
+        genre_y -= 8 * len(tag_lines) + 3.5
 
     c.setStrokeColor(RULE)
     c.setLineWidth(.7)
@@ -250,6 +256,59 @@ def draw_spectrum(c: canvas.Canvas, content: dict, x: float, top: float,
     return project_y
 
 
+def short_label(label: str) -> str:
+    lowered = label.lower()
+    if "instagram" in lowered:
+        return "IG"
+    if "soundcloud" in lowered or "mix" in lowered:
+        return "SC"
+    if label.strip().upper() == "RA" or "resident advisor" in lowered:
+        return "RA"
+    return label.replace("↗", "").strip().upper()[:2]
+
+
+def draw_link_tokens(c: canvas.Canvas, links: list[tuple[str, str]], x: float, y: float,
+                     max_x: float) -> None:
+    for label, url in links:
+        if not url:
+            continue
+        token = short_label(label)
+        token_w = pdfmetrics.stringWidth(token, "Courier", 5.1)
+        if x + token_w > max_x:
+            break
+        c.setFillColor(GREEN)
+        c.setFont("Courier", 5.1)
+        c.drawString(x, y, token)
+        c.linkURL(url, (x, y - 2, x + token_w, y + 5), relative=0)
+        x += token_w + 3
+
+
+def draw_guest_links(c: canvas.Canvas, guests: list[tuple[str, str]], x: float, y: float,
+                     width: float, body: str, leading: float = 9) -> float:
+    separator = "  ·  "
+    sep_w = pdfmetrics.stringWidth(separator, body, 7.2)
+    cursor = x
+    for name, url in guests:
+        name_w = pdfmetrics.stringWidth(name, body, 7.2)
+        extra = sep_w if cursor > x else 0
+        if cursor + extra + name_w > x + width and cursor > x:
+            cursor = x
+            y -= leading
+            extra = 0
+        if extra:
+            c.setFillColor(MUTED)
+            c.setFont(body, 7.2)
+            c.drawString(cursor, y, separator)
+            cursor += sep_w
+        c.setFillColor(PAPER)
+        c.setFont(body, 7.2)
+        c.drawString(cursor, y, name)
+        if url:
+            c.linkURL(url, (cursor, y - 2, cursor + name_w, y + 8), relative=0)
+        cursor += name_w
+    return y
+
+
 def draw_people(c: canvas.Canvas, content: dict, x: float, top: float,
                 width: float, body: str) -> float:
     draw_label(c, "Residents", x, top)
@@ -257,7 +316,7 @@ def draw_people(c: canvas.Canvas, content: dict, x: float, top: float,
     sub_w = width / 2
     rows = max(1, (len(residents) + 1) // 2)
     row_step = 20.5
-    for index, (name, role) in enumerate(residents):
+    for index, (name, role, links) in enumerate(residents):
         col = index // rows
         row = index % rows
         px = x + col * sub_w
@@ -265,25 +324,32 @@ def draw_people(c: canvas.Canvas, content: dict, x: float, top: float,
         c.setFillColor(PAPER)
         c.setFont(body, 8.4)
         c.drawString(px, py, name)
+        name_w = pdfmetrics.stringWidth(name, body, 8.4)
+        if links and links[0][1]:
+            c.linkURL(links[0][1], (px, py - 2, px + name_w, py + 8), relative=0)
+        draw_link_tokens(c, links, px + name_w + 4, py, px + sub_w - 2)
         c.setFillColor(MUTED)
         c.setFont("Helvetica", 6.6)
         c.drawString(px, py - 8, fit_lines(role, "Helvetica", 6.6, sub_w - 8, 1)[0] if role else "")
     y = top - 16 - rows * row_step - 5
 
     draw_label(c, "Creative team", x, y)
-    for index, (name, role) in enumerate(content["crew"]):
+    for index, (name, role, links) in enumerate(content["crew"]):
         py = y - 16 - index * 14
         c.setFillColor(PAPER)
         c.setFont(body, 8.2)
         c.drawString(x, py, name)
+        name_w = pdfmetrics.stringWidth(name, body, 8.2)
+        if links and links[0][1]:
+            c.linkURL(links[0][1], (x, py - 2, x + name_w, py + 8), relative=0)
+        draw_link_tokens(c, links, x + name_w + 4, py, x + 92)
         c.setFillColor(MUTED)
         c.setFont("Helvetica", 6.6)
         c.drawString(x + 96, py, fit_lines(role, "Helvetica", 6.6, width - 96, 1)[0] if role else "")
     y = y - 16 - len(content["crew"]) * 14
 
     draw_label(c, "Guest artists", x, y - 3)
-    y = draw_wrapped(c, "  ·  ".join(content["guests"]), x, y - 16,
-                     width, body, 7.2, 9, PAPER, limit=2)
+    y = draw_guest_links(c, content["guests"], x, y - 16, width, body)
 
     draw_label(c, "Formation", x, y - 5)
     y = draw_wrapped(c, content["formation"], x, y - 19, width, body, 6.7, 8.3, MUTED, limit=3)
