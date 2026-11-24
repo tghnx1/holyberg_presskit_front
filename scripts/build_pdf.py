@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 import tempfile
 
 from bs4 import BeautifulSoup
@@ -103,7 +104,16 @@ def load_site_content() -> dict:
 
     about = [text(p) for p in soup.select(".manifesto-copy > p")]
     audience = text(soup.select_one(".events-intro > p"))
-    outside = [text(p) for p in soup.select("#outside-projects-title ~ p")]
+    outside = []
+    for paragraph in soup.select("#outside-projects-title ~ p"):
+        paragraph_text = re.sub(r"\s+", " ", paragraph.get_text()).strip()
+        links = []
+        for link in paragraph.select("a[href]"):
+            link_text = text(link)
+            start = paragraph_text.find(link_text)
+            if start >= 0:
+                links.append((start, start + len(link_text), link["href"]))
+        outside.append({"text": paragraph_text, "links": links})
     formation = text(soup.select_one("#people .story-copy p"))
     socials = [(text(link), link.get("href", "")) for link in soup.select("#contact .contact-socials a")]
     booking = soup.select_one("#contact .contact-link")
@@ -252,8 +262,50 @@ def draw_spectrum(c: canvas.Canvas, content: dict, x: float, top: float,
     draw_label(c, "Part of the Berlin scene", x, genre_y - 19)
     project_y = genre_y - 33
     for paragraph in content["outside"]:
-        project_y = draw_wrapped(c, paragraph, x, project_y, width, body, 6.8, 8.4, MUTED, limit=3) - 3
+        project_y = draw_linked_paragraph(c, paragraph, x, project_y, width, body, 6.8, 8.4) - 3
     return project_y
+
+
+def draw_linked_paragraph(c: canvas.Canvas, paragraph: dict, x: float, y: float,
+                          width: float, font: str, size: float, leading: float) -> float:
+    value = paragraph["text"]
+    spans = paragraph["links"]
+    c.setFont(font, size)
+    c.setFillColor(MUTED)
+    cursor = 0
+    for line in wrap_lines(value, font, size, width):
+        start = value.find(line, cursor)
+        if start < 0:
+            start = cursor
+        end = start + len(line)
+        line_links = sorted((max(start, link_start), min(end, link_end), url)
+                            for link_start, link_end, url in spans
+                            if max(start, link_start) < min(end, link_end))
+        line_x = x
+        text_cursor = start
+        for link_start, link_end, url in line_links:
+            plain = value[text_cursor:link_start]
+            if plain:
+                c.setFillColor(MUTED)
+                c.drawString(line_x, y, plain)
+                line_x += pdfmetrics.stringWidth(plain, font, size)
+            linked = value[link_start:link_end]
+            c.setFillColor(GREEN)
+            c.drawString(line_x, y, linked)
+            link_width = pdfmetrics.stringWidth(linked, font, size)
+            c.setStrokeColor(GREEN)
+            c.setLineWidth(.35)
+            c.line(line_x, y - .8, line_x + link_width, y - .8)
+            c.linkURL(url, (line_x, y - 2, line_x + link_width, y + size), relative=0)
+            line_x += link_width
+            text_cursor = link_end
+        trailing = value[text_cursor:end]
+        if trailing:
+            c.setFillColor(MUTED)
+            c.drawString(line_x, y, trailing)
+        cursor = end
+        y -= leading
+    return y
 
 
 def short_label(label: str) -> str:
