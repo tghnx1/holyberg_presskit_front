@@ -437,7 +437,7 @@ body p, .manifesto-copy p, .story-copy p, .visual-intro p, .events-label { color
 
 .roster-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   margin-bottom: clamp(26px, 4vw, 52px);
   border: 1px solid var(--rule);
@@ -485,6 +485,13 @@ body p, .manifesto-copy p, .story-copy p, .visual-intro p, .events-label { color
   min-height: 44px;
   align-items: center;
   font: 14px/1.4 monospace;
+}
+
+.guest-list a::after {
+  content: "↗";
+  margin-left: 5px;
+  color: var(--ink);
+  font-size: .85em;
 }
 
 .roster a,
@@ -570,10 +577,6 @@ body p, .manifesto-copy p, .story-copy p, .visual-intro p, .events-label { color
 .event-grid .event-fact { margin: 0 0 14px; }
 .event-fact strong { color: var(--ink); margin-right: 4px; }
 .event-grid .events-links { margin-top: auto; gap: 0 20px; }
-
-@media (max-width: 1250px) {
-  .roster-grid:not(.roster-crew) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
 
 @media (max-width: 760px) {
   .roster-grid:not(.roster-crew),
